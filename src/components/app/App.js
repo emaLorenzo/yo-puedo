@@ -1,27 +1,26 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+
+import Login from '../login/Login';
+
+const Wrapper = styled.main`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 function App() {
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log('anda');
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Welcome to Yo Puedo.</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+      <Login />
+    </Wrapper>
   );
 }
 
