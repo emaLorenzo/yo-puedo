@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core/';
 import { Link, withRouter } from 'react-router-dom';
-import firebase from '../firebase';
+import { withFirebase } from '../Firebase';
 
 const Wrapper = styled.section`
   width: 300px;
@@ -22,16 +22,17 @@ const LinkTo = styled(Link)`
   width: 100%;
 `;
 
-function FirstPage(props) {
-  if (!firebase.getCurrentUserName()) {
+function FirstPage({ firebase, history }) {
+  console.log(firebase);
+  if (!firebase.auth.currentUser) {
     // not loggued in
-    props.history.replace('/login');
+    history.replace('/login');
     return null;
   }
 
   return (
     <Wrapper>
-      <h2>Hi {firebase.getCurrentUserName()}</h2>
+      <h2>Hi {firebase.auth.currentUser.displayName}</h2>
       <h1>You are loggued in.</h1>
       <LinkTo to="/">
         <Btn variant="contained" color="secondary" onClick={logout}>
@@ -43,7 +44,7 @@ function FirstPage(props) {
 
   async function logout() {
     await firebase.logout();
-    props.history.push('/');
+    history.push('/');
   }
 }
-export default withRouter(FirstPage);
+export default withRouter(withFirebase(FirstPage));

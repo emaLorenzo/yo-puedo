@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { CircularProgress } from '@material-ui/core/';
 import Welcome from '../welcome/Welcome';
 import Login from '../login/Login';
 import Register from '../register/Register';
 import FirstPage from '../firstPage/FirstPage';
-import firebase from '../firebase';
 
 const Wrapper = styled.main`
   height: 100vh;
@@ -17,12 +15,7 @@ const Wrapper = styled.main`
 `;
 
 export default function App() {
-  const [firebaseInitialized, setFirebaseInitialized] = useState(false);
-  useEffect(() => {
-    firebase.isInitialized().then(val => setFirebaseInitialized(val));
-  });
-
-  return firebaseInitialized !== false ? (
+  return (
     <Wrapper>
       <BrowserRouter>
         <Route path="/" exact component={Welcome} />
@@ -30,10 +23,6 @@ export default function App() {
         <Route path="/register" component={Register} />
         <Route path="/firstpage" component={FirstPage} />
       </BrowserRouter>
-    </Wrapper>
-  ) : (
-    <Wrapper>
-      <CircularProgress />
     </Wrapper>
   );
 }
