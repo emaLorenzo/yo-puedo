@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, TextField } from '@material-ui/core/';
 import { Link, withRouter } from 'react-router-dom';
-import firebase from '../Firebase/firebase';
+import { withFirebase } from '../Firebase';
 
 const Wrapper = styled.section`
   width: 300px;
@@ -30,7 +30,7 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-function Register(props) {
+const Register= ({ firebase, history }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -60,11 +60,12 @@ function Register(props) {
   );
   async function onRegister() {
     try {
-      await firebase.register(name, email, password);
-      props.history.replace('/firstpage');
+      await firebase.doCreateUserWithEmailAndPassword(email, password);
+      history.replace('/firstpage');
     } catch (error) {
       alert(error.message);
     }
   }
-}
-export default withRouter(Register);
+};
+
+export default withRouter(withFirebase(Register));

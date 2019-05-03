@@ -23,7 +23,6 @@ const LinkTo = styled(Link)`
 `;
 
 function FirstPage({ firebase, history }) {
-  console.log(firebase);
   if (!firebase.auth.currentUser) {
     // not loggued in
     history.replace('/login');
@@ -43,7 +42,7 @@ function FirstPage({ firebase, history }) {
   );
 
   async function logout() {
-    await firebase.logout();
+    await firebase.doSignOut();
     history.push('/');
   }
 }

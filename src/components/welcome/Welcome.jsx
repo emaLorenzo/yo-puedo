@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { Link, withRouter } from 'react-router-dom';
-import firebase from '../Firebase/firebase';
+import { withFirebase } from '../Firebase';
 
 const Wrapper = styled.section`
   width: 300px;
@@ -24,7 +24,7 @@ const LinkTo = styled(Link)`
   width: 100%;
 `;
 
-function Welcome(props) {
+const Welcome = ({ firebase, history }) => {
   return (
     <Wrapper>
       <h1>Welcome to Yo Puedo!</h1>
@@ -38,19 +38,19 @@ function Welcome(props) {
           Register
         </Btn>
       </LinkTo>
-      <Btn variant="contained" color="secondary" onClick={signInWithGoogle}>
+      <Btn variant="contained" color="secondary" onClick={onSignInWithGoogle}>
         Login with Google
       </Btn>
     </Wrapper>
   );
 
-  async function signInWithGoogle() {
+  async function onSignInWithGoogle() {
     try {
-      await firebase.googleSignIn();
-      props.history.replace('/firstpage');
+      await firebase.doCreateUserWithGoogle();
+      history.replace('/firstpage');
     } catch (error) {
       alert(error.message);
     }
   }
 }
-export default withRouter(Welcome);
+export default withRouter(withFirebase(Welcome));
