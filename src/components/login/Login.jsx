@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, TextField } from '@material-ui/core/';
 import { Link, withRouter } from 'react-router-dom';
-import firebase from '../firebase';
+import { withFirebase } from '../Firebase';
 
 const Wrapper = styled.section`
   width: 300px;
@@ -30,7 +30,7 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-function Login(props) {
+const Login = ({ firebase, history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -56,14 +56,14 @@ function Login(props) {
       </Container>
     </Wrapper>
   );
-
   async function onLogin() {
     try {
-      await firebase.login(email, password);
-      props.history.replace('/firstpage');
+      await firebase.doSignInWithEmailAndPassword(email, password);
+      history.replace('/firstpage');
     } catch (error) {
       alert(error.message);
     }
   }
-}
-export default withRouter(Login);
+};
+
+export default withRouter(withFirebase(Login));

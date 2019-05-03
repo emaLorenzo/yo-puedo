@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { Link, withRouter } from 'react-router-dom';
-import firebase from '../firebase';
+import firebase from '../Firebase/firebase';
 
 const Wrapper = styled.section`
   width: 300px;
