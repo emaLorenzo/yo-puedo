@@ -30,7 +30,7 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-const Register= ({ firebase, history }) => {
+const Register = ({ firebase, history }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

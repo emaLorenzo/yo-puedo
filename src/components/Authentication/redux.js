@@ -1,5 +1,5 @@
 import { createReducer, createActions } from 'reduxsauce';
-
+// exporto como creators, importo como actions
 const { Types, Creators } = createActions(
   {
     signin: ['params'],
@@ -14,7 +14,7 @@ const { Types, Creators } = createActions(
   { prefix: 'AUTH/' }
 );
 
-export const SigninTypes = Types;
+export const AuthTypes = Types;
 export default Creators;
 
 export const INITIAL_STATE = {

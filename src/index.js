@@ -11,11 +11,14 @@ import './index.css';
 
 import App from './components/app/App';
 import rootReducer from './config/rootReducer';
+import rootSaga from './config/rootSaga';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(rootReducer, {}, composeEnhancers(applyMiddleware(sagaMiddleware)));
+
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
