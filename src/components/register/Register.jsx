@@ -6,7 +6,7 @@ import { withFirebase } from '../Firebase';
 
 const Wrapper = styled.section`
   width: 300px;
-  height: 300px;
+  height: 400px;
   display: flex;
   border: 1px solid grey;
   align-items: center;
@@ -15,13 +15,13 @@ const Wrapper = styled.section`
   border-radius: 3px;
   padding: 20px;
 `;
-const Btn = styled(Button, Link)`
+const Btn = styled(Button)`
   width: 120px;
 `;
 const Container = styled.div`
   width: 100%;
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: row;
   justify-content: space-between;
 `;
 const LinkTo = styled(Link)`
@@ -30,13 +30,15 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-const Login = ({ firebase, history }) => {
+const Register= ({ firebase, history }) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   return (
     <Wrapper>
-      <h1>Login</h1>
+      <h1>Register Account</h1>
+      <TextField label="Name" value={name} onChange={e => setName(e.target.value)} />
       <TextField label="Email" value={email} onChange={e => setEmail(e.target.value)} />
       <TextField
         label="Password"
@@ -50,15 +52,15 @@ const Login = ({ firebase, history }) => {
             Back
           </Btn>
         </LinkTo>
-        <Btn variant="contained" color="secondary" onClick={onLogin}>
-          Login
+        <Btn variant="contained" color="secondary" onClick={onRegister}>
+          Register
         </Btn>
       </Container>
     </Wrapper>
   );
-  async function onLogin() {
+  async function onRegister() {
     try {
-      await firebase.doSignInWithEmailAndPassword(email, password);
+      await firebase.doCreateUserWithEmailAndPassword(email, password);
       history.replace('/firstpage');
     } catch (error) {
       alert(error.message);
@@ -66,4 +68,4 @@ const Login = ({ firebase, history }) => {
   }
 };
 
-export default withRouter(withFirebase(Login));
+export default withRouter(withFirebase(Register));
