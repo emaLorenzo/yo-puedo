@@ -6,7 +6,6 @@ import { Link, withRouter } from 'react-router-dom';
 const Container = styled.div`
   height: 64px;
   display: flex;
-  flex-grow: 1;
 `;
 const Title = styled(Typography)`
   display: flex;
