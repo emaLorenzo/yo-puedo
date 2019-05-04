@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, TextField } from '@material-ui/core/';
 import { Link, withRouter } from 'react-router-dom';
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../Firebase';
 
 const Wrapper = styled.section`
   width: 300px;
@@ -59,7 +59,7 @@ const Login = ({ firebase, history }) => {
   async function onLogin() {
     try {
       await firebase.doSignInWithEmailAndPassword(email, password);
-      history.replace('/firstpage');
+      history.replace('/landingPage');
     } catch (error) {
       alert(error.message);
     }

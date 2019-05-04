@@ -47,7 +47,7 @@ const Welcome = ({ firebase, history }) => {
   async function onSignInWithGoogle() {
     try {
       await firebase.doCreateUserWithGoogle();
-      history.replace('/firstpage');
+      history.replace('/landingPage');
     } catch (error) {
       alert(error.message);
     }
