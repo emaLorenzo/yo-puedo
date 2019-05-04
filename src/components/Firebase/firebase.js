@@ -40,11 +40,6 @@ class Firebase {
   doPasswordUpdate(password) {
     return this.auth.currentUser.updatePassword(password);
   }
-
-  // this function returns true of false
-  doUserIsLogin() {
-    return this.auth.currentUser;
-  }
 }
 
 export default Firebase;
