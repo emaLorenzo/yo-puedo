@@ -22,7 +22,8 @@ const LinkTo = styled(Link)`
   width: 100%;
 `;
 
-function FirstPage({ firebase, history }) {
+function LandingPage({ firebase, history }) {
+  console.log('firebase ', firebase);
   if (!firebase.auth.currentUser) {
     // not loggued in
     history.replace('/login');
@@ -46,4 +47,4 @@ function FirstPage({ firebase, history }) {
     history.push('/');
   }
 }
-export default withRouter(withFirebase(FirstPage));
+export default withRouter(withFirebase(LandingPage));

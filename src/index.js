@@ -1,19 +1,21 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable no-undef */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import * as serviceWorker from './serviceWorker';
-// import rootReducer from './Config/rootReducer'
-import App from './components/app/App';
-import './index.css';
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import Firebase, { FirebaseContext } from './components/Firebase';
+import * as serviceWorker from './serviceWorker';
+import './index.css';
 
-const store = createStore(
-  // rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+import App from './components/app/App';
+import rootReducer from './config/rootReducer';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(rootReducer, {}, composeEnhancers(applyMiddleware(sagaMiddleware)));
 
 ReactDOM.render(
   <Provider store={store}>
