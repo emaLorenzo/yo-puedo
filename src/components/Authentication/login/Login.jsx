@@ -52,20 +52,16 @@ const Login = ({ firebase, history, signin }) => {
             Back
           </Btn>
         </LinkTo>
-        <Btn variant="contained" color="secondary" onClick={signin}>
+        <Btn
+          variant="contained"
+          color="secondary"
+          onClick={() => signin(firebase, history, email, password)}
+        >
           Login
         </Btn>
       </Container>
     </Wrapper>
   );
-  async function onLogin() {
-    try {
-      await firebase.doSignInWithEmailAndPassword(email, password);
-      history.replace('/landingPage');
-    } catch (error) {
-      alert(error.message);
-    }
-  }
 };
 
 const mapDispatchToProps = {

@@ -4,13 +4,14 @@ import Actions, { AuthTypes } from './redux';
 
 /* --------------------- Subroutines --------------- */
 
-function* doSignin(params) {
+function* doSignin(firebase, history, email, password) {
   try {
     yield put(Actions.signinLoading());
-    const response = { status: 200 };
+    firebase.auth.signInWithEmailAndPassword(email, password);
 
-    if (response.status === 200) {
+    if (firebase.auth.currentUser) {
       yield put(Actions.signinSuccess());
+      history.push('/fruta');
     } else {
       yield put(Actions.signinError('error'));
     }
@@ -19,16 +20,13 @@ function* doSignin(params) {
   }
 }
 
-function* doSignout() {
+function* doSignout(firebase, history) {
   try {
     yield put(Actions.signoutLoading());
-    const response = { status: 200 };
+    firebase.auth.signOut();
 
-    if (response.status === 200) {
-      yield put(Actions.signoutSuccess());
-    } else {
-      yield put(Actions.signoutError('error'));
-    }
+    yield put(Actions.signoutSuccess());
+    history.push('/');
   } catch (err) {
     yield put(Actions.signoutError('error'));
   }
@@ -37,18 +35,16 @@ function* doSignout() {
 /* --------------------- Watchers ------------------ */
 
 const watchSignin = function*() {
-  console.log('watchSign');
   while (true) {
-    const { params } = yield take(AuthTypes.SIGNIN);
-    console.log('anda');
-    yield fork(doSignin, params);
+    const { firebase, history, email, password } = yield take(AuthTypes.SIGNIN);
+    yield fork(doSignin, firebase, history, email, password);
   }
 };
 
 const watchSignout = function*() {
   while (true) {
-    yield take(AuthTypes.SIGNOUT);
-    yield fork(doSignout);
+    const { firebase, history } = yield take(AuthTypes.SIGNOUT);
+    yield fork(doSignout, firebase, history);
   }
 };
 

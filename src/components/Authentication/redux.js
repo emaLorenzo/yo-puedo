@@ -2,11 +2,11 @@ import { createReducer, createActions } from 'reduxsauce';
 // exporto como creators, importo como actions
 const { Types, Creators } = createActions(
   {
-    signin: ['params'],
+    signin: ['firebase', 'history', 'email', 'password'],
     signinLoading: null,
     signinSuccess: ['user'],
     signinError: ['message'],
-    signout: null,
+    signout: ['firebase', 'history'],
     signoutLoading: null,
     signoutSuccess: null,
     signoutError: ['message'],
