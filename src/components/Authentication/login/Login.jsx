@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, TextField } from '@material-ui/core/';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withFirebase } from '../../Firebase';
 import Actions from '../redux';
@@ -58,6 +59,11 @@ const Login = ({ auth, signin }) => {
       </Container>
     </Wrapper>
   );
+};
+
+Login.propTypes = {
+  auth: PropTypes.object.isRequired,
+  signin: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button, AppBar, Toolbar, Typography } from '@material-ui/core/';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { withFirebase } from '../Firebase';
 import Actions from '../Authentication/redux';
 
@@ -47,6 +48,12 @@ const Header = ({ auth, user, signout }) => (
     </AppBar>
   </Container>
 );
+
+Header.propTypes = {
+  auth: PropTypes.object.isRequired,
+  signout: PropTypes.func.isRequired,
+  user: PropTypes.object,
+};
 
 const mapStateToProps = ({ auth: { user } }) => ({ user });
 

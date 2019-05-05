@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, TextField } from '@material-ui/core/';
 import { Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withFirebase } from '../../Firebase';
 import Actions from '../redux';
@@ -64,6 +65,12 @@ const Register = ({ auth, history, signup }) => {
       </Container>
     </Wrapper>
   );
+};
+
+Register.propTypes = {
+  auth: PropTypes.object.isRequired,
+  signup: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = {

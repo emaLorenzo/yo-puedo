@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core/';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withFirebase } from '../Firebase';
 import Actions from '../Authentication/redux';
@@ -37,6 +38,11 @@ function LandingPage({ auth, signout }) {
     </Wrapper>
   );
 }
+
+LandingPage.propTypes = {
+  auth: PropTypes.object.isRequired,
+  signout: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = {
   signout: Actions.signout,
