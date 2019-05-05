@@ -6,10 +6,16 @@ const { Types, Creators } = createActions(
     signinLoading: null,
     signinSuccess: ['user'],
     signinError: ['message'],
+    //
     signout: ['firebase', 'history'],
     signoutLoading: null,
     signoutSuccess: null,
     signoutError: ['message'],
+    //
+    signup: ['firebase', 'history', 'email', 'password'],
+    signupLoading: null,
+    signupSuccess: ['user'],
+    signupError: ['message'],
   },
   { prefix: 'AUTH/' }
 );
@@ -19,10 +25,15 @@ export default Creators;
 
 export const INITIAL_STATE = {
   user: null,
+  //
   signinLoading: false,
   signinError: '',
+  //
   signoutLoading: false,
   signoutError: null,
+  //
+  signupLoading: false,
+  signupError: '',
 };
 
 /* ------------- Reducers ------------- */
@@ -55,11 +66,30 @@ const signoutError = (state, action) => ({
   signoutError: action.message,
 });
 
+const signupLoading = state => ({ ...state, signupLoading: true });
+
+const signupSuccess = (state, action) => ({
+  ...state,
+  signupLoading: false,
+  signupError: '',
+  user: action.user,
+});
+
+const signupError = (state, action) => ({
+  signupLoading: false,
+  signupError: action.message,
+});
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNIN_LOADING]: signinLoading,
   [Types.SIGNIN_SUCCESS]: signinSuccess,
   [Types.SIGNIN_ERROR]: signinError,
+  //
   [Types.SIGNOUT_LOADING]: signoutLoading,
   [Types.SIGNOUT_SUCCESS]: signoutSuccess,
   [Types.SIGNOUT_ERROR]: signoutError,
+  //
+  [Types.SIGNUP_LOADING]: signupLoading,
+  [Types.SIGNUP_SUCCESS]: signupSuccess,
+  [Types.SIGNUP_ERROR]: signupError,
 });

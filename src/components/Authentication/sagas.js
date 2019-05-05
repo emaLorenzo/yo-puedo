@@ -11,7 +11,7 @@ function* doSignin(firebase, history, email, password) {
 
     if (firebase.auth.currentUser) {
       yield put(Actions.signinSuccess());
-      history.push('/fruta');
+      history.push('/');
     } else {
       yield put(Actions.signinError('error'));
     }
@@ -26,9 +26,25 @@ function* doSignout(firebase, history) {
     firebase.auth.signOut();
 
     yield put(Actions.signoutSuccess());
-    history.push('/');
+    history.push('/login');
   } catch (err) {
     yield put(Actions.signoutError('error'));
+  }
+}
+
+function* doSignup(firebase, history, email, password) {
+  try {
+    yield put(Actions.signupLoading());
+    firebase.auth.createUserWithEmailAndPassword(email, password);
+
+    if (firebase.auth.currentUser) {
+      yield put(Actions.signupSuccess());
+      history.push('/fruta');
+    } else {
+      yield put(Actions.signupError('error'));
+    }
+  } catch (err) {
+    yield put(Actions.signupError('error'));
   }
 }
 
@@ -48,4 +64,11 @@ const watchSignout = function*() {
   }
 };
 
-export default { watchSignin, watchSignout };
+const watchSignup = function*() {
+  while (true) {
+    const { firebase, history, email, password } = yield take(AuthTypes.SIGNUP);
+    yield fork(doSignup, firebase, history, email, password);
+  }
+};
+
+export default { watchSignin, watchSignout, watchSignup };
