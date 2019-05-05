@@ -31,16 +31,16 @@ const Header = ({ auth, user, signout }) => (
         {user ? (
           <LinkTo to="/login">
             <Button color="inherit" onClick={() => signout(auth)}>
-              Logout
+              Salir
             </Button>
           </LinkTo>
         ) : (
           <React.Fragment>
             <LinkTo to="/login">
-              <Button color="inherit">Login</Button>
+              <Button color="inherit">Ingresa</Button>
             </LinkTo>
             <LinkTo to="/register">
-              <Button color="inherit">Register</Button>
+              <Button color="inherit">Registrate</Button>
             </LinkTo>
           </React.Fragment>
         )}
