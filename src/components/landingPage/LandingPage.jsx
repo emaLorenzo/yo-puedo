@@ -24,13 +24,13 @@ const LinkTo = styled(Link)`
   width: 100%;
 `;
 
-function LandingPage({ firebase, signout }) {
+function LandingPage({ auth, signout }) {
   return (
     <Wrapper>
-      <h2>Hi {firebase.auth.currentUser && firebase.auth.currentUser.displayName}</h2>
+      <h2>Hi {auth.currentUser && auth.currentUser.displayName}</h2>
       <h1>You are loggued in.</h1>
       <LinkTo to="/">
-        <Btn variant="contained" color="secondary" onClick={() => signout(firebase)}>
+        <Btn variant="contained" color="secondary" onClick={() => signout(auth)}>
           Logout
         </Btn>
       </LinkTo>

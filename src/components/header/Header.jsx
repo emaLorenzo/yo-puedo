@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, AppBar, Toolbar, Typography } from '@material-ui/core/';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withFirebase } from '../Firebase';
+import Actions from '../Authentication/redux';
 
 const Container = styled.div`
   height: 64px;
@@ -17,24 +20,41 @@ const LinkTo = styled(Link)`
   color: white;
 `;
 
-function Header() {
-  return (
-    <Container>
-      <AppBar position="static">
-        <Toolbar>
-          <Title variant="h6" color="inherit">
-            Google
-          </Title>
+const Header = ({ auth, user, signout }) => (
+  <Container>
+    <AppBar position="static">
+      <Toolbar>
+        <Title variant="h6" color="inherit">
+          <LinkTo to="/">Yo Puedo</LinkTo>
+        </Title>
+        {user ? (
           <LinkTo to="/login">
-            <Button color="inherit">Login</Button>
+            <Button color="inherit" onClick={() => signout(auth)}>
+              Logout
+            </Button>
           </LinkTo>
-          <LinkTo to="/register">
-            <Button color="inherit">Register</Button>
-          </LinkTo>
-        </Toolbar>
-      </AppBar>
-    </Container>
-  );
-}
+        ) : (
+          <React.Fragment>
+            <LinkTo to="/login">
+              <Button color="inherit">Login</Button>
+            </LinkTo>
+            <LinkTo to="/register">
+              <Button color="inherit">Register</Button>
+            </LinkTo>
+          </React.Fragment>
+        )}
+      </Toolbar>
+    </AppBar>
+  </Container>
+);
 
-export default withRouter(Header);
+const mapStateToProps = ({ auth: { user } }) => ({ user });
+
+const mapDispatchToProps = {
+  signout: Actions.signout,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withFirebase(Header));

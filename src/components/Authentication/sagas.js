@@ -4,12 +4,12 @@ import Actions, { AuthTypes } from './redux';
 
 /* --------------------- Subroutines --------------- */
 
-function* doSignup(firebase, email, password) {
+function* doSignup(auth, email, password) {
   try {
     let error;
     // set loading UI
     yield put(Actions.signupLoading());
-    yield firebase.auth.createUserWithEmailAndPassword(email, password).catch(e => {
+    yield auth.createUserWithEmailAndPassword(email, password).catch(e => {
       error = e.message;
     });
     if (error) {
@@ -22,11 +22,11 @@ function* doSignup(firebase, email, password) {
   }
 }
 
-function* doSignin(firebase, email, password) {
+function* doSignin(auth, email, password) {
   try {
     let error;
     yield put(Actions.signinLoading());
-    yield firebase.auth.signInWithEmailAndPassword(email, password).catch(e => {
+    yield auth.signInWithEmailAndPassword(email, password).catch(e => {
       error = e.message;
     });
 
@@ -38,11 +38,11 @@ function* doSignin(firebase, email, password) {
   }
 }
 
-function* doSignout(firebase) {
+function* doSignout(auth) {
   try {
     let error;
     yield put(Actions.signoutLoading());
-    yield firebase.auth.signOut().catch(e => {
+    yield auth.signOut().catch(e => {
       error = e.message;
     });
 
@@ -58,22 +58,22 @@ function* doSignout(firebase) {
 
 const watchSignup = function*() {
   while (true) {
-    const { firebase, email, password } = yield take(AuthTypes.SIGNUP);
-    yield fork(doSignup, firebase, email, password);
+    const { auth, email, password } = yield take(AuthTypes.SIGNUP);
+    yield fork(doSignup, auth, email, password);
   }
 };
 
 const watchSignin = function*() {
   while (true) {
-    const { firebase, email, password } = yield take(AuthTypes.SIGNIN);
-    yield fork(doSignin, firebase, email, password);
+    const { auth, email, password } = yield take(AuthTypes.SIGNIN);
+    yield fork(doSignin, auth, email, password);
   }
 };
 
 const watchSignout = function*() {
   while (true) {
-    const { firebase, history } = yield take(AuthTypes.SIGNOUT);
-    yield fork(doSignout, firebase, history);
+    const { auth } = yield take(AuthTypes.SIGNOUT);
+    yield fork(doSignout, auth);
   }
 };
 

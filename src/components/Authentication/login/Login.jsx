@@ -32,7 +32,7 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-const Login = ({ firebase, signin }) => {
+const Login = ({ auth, signin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -52,11 +52,7 @@ const Login = ({ firebase, signin }) => {
             Back
           </Btn>
         </LinkTo>
-        <Btn
-          variant="contained"
-          color="secondary"
-          onClick={() => signin(firebase, email, password)}
-        >
+        <Btn variant="contained" color="secondary" onClick={() => signin(auth, email, password)}>
           Login
         </Btn>
       </Container>

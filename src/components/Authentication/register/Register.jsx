@@ -32,7 +32,7 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-const Register = ({ firebase, history, signup }) => {
+const Register = ({ auth, history, signup }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -57,7 +57,7 @@ const Register = ({ firebase, history, signup }) => {
         <Btn
           variant="contained"
           color="secondary"
-          onClick={() => signup(firebase, history, email, password)}
+          onClick={() => signup(auth, history, email, password)}
         >
           Register
         </Btn>
