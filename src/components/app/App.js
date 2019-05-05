@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { BrowserRouter, Route } from 'react-router-dom';
@@ -19,11 +20,18 @@ const Wrapper = styled.main`
 `;
 const Content = styled.div`
   width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const App = ({ firebase, setUser }) => {
+const App = ({ auth, setUser, user }) => {
   useEffect(() => {
-    const listener = firebase.auth.onAuthStateChanged(user => setUser(user));
+    const listener = auth.onAuthStateChanged(updatedUser => {
+      setUser(updatedUser);
+      // history.push('/');
+    });
     return () => {
       listener();
     };
@@ -33,7 +41,7 @@ const App = ({ firebase, setUser }) => {
       <Wrapper>
         <Header />
         <Content>
-          <Route path="/" exact component={firebase.auth.currentUser ? Welcome : LandingPage} />
+          <Route path="/" exact component={user ? LandingPage : Welcome} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/landingPage" component={LandingPage} />
@@ -44,10 +52,12 @@ const App = ({ firebase, setUser }) => {
 };
 
 App.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  firebase: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   setUser: PropTypes.func.isRequired,
+  user: PropTypes.object,
 };
+
+const mapStateToProps = ({ auth: { user } }) => ({ user });
 
 const mapDispatchToProps = {
   setUser: Actions.setUser,
@@ -55,7 +65,7 @@ const mapDispatchToProps = {
 
 export default withFirebase(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(App)
 );

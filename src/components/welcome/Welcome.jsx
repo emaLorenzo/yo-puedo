@@ -24,7 +24,7 @@ const LinkTo = styled(Link)`
   width: 100%;
 `;
 
-const Welcome = ({ firebase, history }) => {
+const Welcome = ({ auth, history }) => {
   return (
     <Wrapper>
       <h1>Welcome to Yo Puedo!</h1>
@@ -45,12 +45,12 @@ const Welcome = ({ firebase, history }) => {
   );
 
   async function onSignInWithGoogle() {
-    try {
-      await firebase.doCreateUserWithGoogle();
-      history.replace('/landingPage');
-    } catch (error) {
-      alert(error.message);
-    }
+    //   try {
+    //     await firebase.doCreateUserWithGoogle();
+    //     history.replace('/landingPage');
+    //   } catch (error) {
+    //     alert(error.message);
+    //   }
   }
-}
+};
 export default withRouter(withFirebase(Welcome));
