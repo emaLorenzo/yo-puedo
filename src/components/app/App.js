@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../Header/Header';
@@ -26,28 +26,26 @@ const Content = styled.div`
   align-items: center;
 `;
 
-const App = ({ auth, setUser, user }) => {
+const App = ({ auth, history, setUser, user }) => {
   useEffect(() => {
     const listener = auth.onAuthStateChanged(updatedUser => {
       setUser(updatedUser);
-      // history.push('/');
+      history.push('/');
     });
     return () => {
       listener();
     };
   }, []);
   return (
-    <BrowserRouter>
-      <Wrapper>
-        <Header />
-        <Content>
-          <Route path="/" exact component={user ? LandingPage : Welcome} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/landingPage" component={LandingPage} />
-        </Content>
-      </Wrapper>
-    </BrowserRouter>
+    <Wrapper>
+      <Header />
+      <Content>
+        <Route path="/" exact component={user ? LandingPage : Welcome} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/landingPage" component={LandingPage} />
+      </Content>
+    </Wrapper>
   );
 };
 
@@ -64,8 +62,10 @@ const mapDispatchToProps = {
 };
 
 export default withFirebase(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
+  withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(App)
+  )
 );
