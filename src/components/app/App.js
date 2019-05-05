@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Header from '../Header/Header';
+import Header from '../header/Header';
 import Welcome from '../welcome/Welcome';
 import Login from '../Authentication/Login/Login';
-import Register from '../Authentication/Register/Register';
+import Register from '../Authentication/register/Register';
 import LandingPage from '../landingPage/LandingPage';
 import { withFirebase } from '../Firebase';
 import Actions from '../Authentication/redux';
@@ -35,7 +35,7 @@ const App = ({ auth, history, setUser, user }) => {
     return () => {
       listener();
     };
-  }, []);
+  }, [auth, history, setUser]);
   return (
     <Wrapper>
       <Header />
@@ -52,6 +52,7 @@ const App = ({ auth, history, setUser, user }) => {
 App.propTypes = {
   auth: PropTypes.object.isRequired,
   setUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   user: PropTypes.object,
 };
 
