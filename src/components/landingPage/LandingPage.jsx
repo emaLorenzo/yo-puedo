@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core/';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withFirebase } from '../Firebase';
+import Actions from '../Authentication/redux';
 
 const Wrapper = styled.section`
   width: 300px;
@@ -22,29 +25,30 @@ const LinkTo = styled(Link)`
   width: 100%;
 `;
 
-function LandingPage({ firebase, history }) {
-  console.log('firebase ', firebase);
-  if (!firebase.auth.currentUser) {
-    // not loggued in
-    history.replace('/login');
-    return null;
-  }
-
+function LandingPage({ auth, signout }) {
   return (
     <Wrapper>
-      <h2>Hi {firebase.auth.currentUser.displayName}</h2>
+      <h2>Hi {auth.currentUser && auth.currentUser.displayName}</h2>
       <h1>You are loggued in.</h1>
       <LinkTo to="/">
-        <Btn variant="contained" color="secondary" onClick={logout}>
+        <Btn variant="contained" color="secondary" onClick={() => signout(auth)}>
           Logout
         </Btn>
       </LinkTo>
     </Wrapper>
   );
-
-  async function logout() {
-    await firebase.doSignOut();
-    history.push('/');
-  }
 }
-export default withRouter(withFirebase(LandingPage));
+
+LandingPage.propTypes = {
+  auth: PropTypes.object.isRequired,
+  signout: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = {
+  signout: Actions.signout,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withFirebase(LandingPage));

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, TextField } from '@material-ui/core/';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withFirebase } from '../../Firebase';
+import Actions from '../redux';
 
 const Wrapper = styled.section`
   width: 300px;
@@ -30,7 +33,7 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-const Login = ({ firebase, history }) => {
+const Login = ({ auth, signin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -50,20 +53,24 @@ const Login = ({ firebase, history }) => {
             Back
           </Btn>
         </LinkTo>
-        <Btn variant="contained" color="secondary" onClick={onLogin}>
+        <Btn variant="contained" color="secondary" onClick={() => signin(auth, email, password)}>
           Login
         </Btn>
       </Container>
     </Wrapper>
   );
-  async function onLogin() {
-    try {
-      await firebase.doSignInWithEmailAndPassword(email, password);
-      history.replace('/landingPage');
-    } catch (error) {
-      alert(error.message);
-    }
-  }
 };
 
-export default withRouter(withFirebase(Login));
+Login.propTypes = {
+  auth: PropTypes.object.isRequired,
+  signin: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = {
+  signin: Actions.signin,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withFirebase(Login));

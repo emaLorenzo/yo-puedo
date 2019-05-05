@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, TextField } from '@material-ui/core/';
 import { Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withFirebase } from '../../Firebase';
+import Actions from '../redux';
 
 const Wrapper = styled.section`
   width: 300px;
@@ -30,7 +33,7 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-const Register= ({ firebase, history }) => {
+const Register = ({ auth, history, signup }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,20 +55,29 @@ const Register= ({ firebase, history }) => {
             Back
           </Btn>
         </LinkTo>
-        <Btn variant="contained" color="secondary" onClick={onRegister}>
+        <Btn
+          variant="contained"
+          color="secondary"
+          onClick={() => signup(auth, history, email, password)}
+        >
           Register
         </Btn>
       </Container>
     </Wrapper>
   );
-  async function onRegister() {
-    try {
-      await firebase.doCreateUserWithEmailAndPassword(email, password);
-      history.replace('/landingPage');
-    } catch (error) {
-      alert(error.message);
-    }
-  }
 };
 
-export default withRouter(withFirebase(Register));
+Register.propTypes = {
+  auth: PropTypes.object.isRequired,
+  signup: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+};
+
+const mapDispatchToProps = {
+  signup: Actions.signup,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withRouter(withFirebase(Register)));
