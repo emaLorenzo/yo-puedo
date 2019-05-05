@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Header from '../Header';
+import Header from '../Header/Header';
 import Welcome from '../welcome/Welcome';
 import Login from '../Authentication/Login/Login';
 import Register from '../Authentication/Register/Register';
