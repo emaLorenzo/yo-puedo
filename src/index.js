@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { BrowserRouter } from 'react-router-dom';
 import { FirebaseContext } from './components/Firebase';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
@@ -28,7 +29,9 @@ firebase.initializeApp(firebaseCredentials);
 ReactDOM.render(
   <Provider store={store}>
     <FirebaseContext.Provider value={{ auth: firebase.auth() }}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </FirebaseContext.Provider>
   </Provider>,
   document.getElementById('root')
