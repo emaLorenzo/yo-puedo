@@ -16,21 +16,9 @@ class Firebase {
     this.auth = app.auth();
   }
 
-  doCreateUserWithEmailAndPassword(email, password) {
-    return this.auth.createUserWithEmailAndPassword(email, password);
-  }
-
   doCreateUserWithGoogle() {
     const provider = new app.auth.GoogleAuthProvider();
     return this.auth.signInWithPopup(provider);
-  }
-
-  doPasswordReset(email) {
-    return this.auth.sendPasswordResetEmail(email);
-  }
-
-  doPasswordUpdate(password) {
-    return this.auth.currentUser.updatePassword(password);
   }
 }
 

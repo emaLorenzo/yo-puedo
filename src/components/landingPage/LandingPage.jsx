@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core/';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withFirebase } from '../Firebase';
 import Actions from '../Authentication/redux';
@@ -24,13 +24,13 @@ const LinkTo = styled(Link)`
   width: 100%;
 `;
 
-function LandingPage({ firebase, history, signout }) {
+function LandingPage({ firebase, signout }) {
   return (
     <Wrapper>
       <h2>Hi {firebase.auth.currentUser && firebase.auth.currentUser.displayName}</h2>
       <h1>You are loggued in.</h1>
       <LinkTo to="/">
-        <Btn variant="contained" color="secondary" onClick={() => signout(firebase, history)}>
+        <Btn variant="contained" color="secondary" onClick={() => signout(firebase)}>
           Logout
         </Btn>
       </LinkTo>
@@ -45,4 +45,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps
-)(withRouter(withFirebase(LandingPage)));
+)(withFirebase(LandingPage));

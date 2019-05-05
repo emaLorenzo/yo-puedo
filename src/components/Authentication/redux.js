@@ -2,20 +2,19 @@ import { createReducer, createActions } from 'reduxsauce';
 // exporto como creators, importo como actions
 const { Types, Creators } = createActions(
   {
-    signin: ['firebase', 'history', 'email', 'password'],
+    signin: ['firebase', 'email', 'password'],
     signinLoading: null,
-    signinSuccess: ['user'],
     signinError: ['message'],
     //
-    signout: ['firebase', 'history'],
+    signout: ['firebase'],
     signoutLoading: null,
-    signoutSuccess: null,
     signoutError: ['message'],
     //
-    signup: ['firebase', 'history', 'email', 'password'],
+    signup: ['firebase', 'email', 'password'],
     signupLoading: null,
-    signupSuccess: ['user'],
     signupError: ['message'],
+    //
+    setUser: ['user'],
   },
   { prefix: 'AUTH/' }
 );
@@ -38,58 +37,53 @@ export const INITIAL_STATE = {
 
 /* ------------- Reducers ------------- */
 
-const signinLoading = state => ({ ...state, signinLoading: true });
-
-const signinSuccess = (state, action) => ({
+const signinLoading = state => ({
   ...state,
-  signinLoading: false,
-  signinError: '',
-  user: action.user,
+  signinLoading: true,
 });
 
 const signinError = (state, action) => ({
+  ...state,
   signinLoading: false,
   signinError: action.message,
 });
 
-const signoutLoading = state => ({ ...state, signoutLoading: true });
-
-const signoutSuccess = state => ({
+const signoutLoading = state => ({
   ...state,
-  user: null,
-  signoutLoading: false,
-  signinError: '',
+  signoutLoading: true,
 });
 
 const signoutError = (state, action) => ({
+  ...state,
   signoutLoading: false,
   signoutError: action.message,
 });
 
-const signupLoading = state => ({ ...state, signupLoading: true });
-
-const signupSuccess = (state, action) => ({
+const signupLoading = state => ({
   ...state,
-  signupLoading: false,
-  signupError: '',
-  user: action.user,
+  signupLoading: true,
 });
 
 const signupError = (state, action) => ({
+  ...state,
   signupLoading: false,
   signupError: action.message,
 });
 
+const setUser = (state, action) => ({
+  ...INITIAL_STATE,
+  user: action.user,
+});
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SIGNIN_LOADING]: signinLoading,
-  [Types.SIGNIN_SUCCESS]: signinSuccess,
   [Types.SIGNIN_ERROR]: signinError,
   //
   [Types.SIGNOUT_LOADING]: signoutLoading,
-  [Types.SIGNOUT_SUCCESS]: signoutSuccess,
   [Types.SIGNOUT_ERROR]: signoutError,
   //
   [Types.SIGNUP_LOADING]: signupLoading,
-  [Types.SIGNUP_SUCCESS]: signupSuccess,
   [Types.SIGNUP_ERROR]: signupError,
+  //
+  [Types.SET_USER]: setUser,
 });

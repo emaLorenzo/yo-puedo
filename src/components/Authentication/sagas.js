@@ -4,56 +4,69 @@ import Actions, { AuthTypes } from './redux';
 
 /* --------------------- Subroutines --------------- */
 
-function* doSignin(firebase, history, email, password) {
+function* doSignup(firebase, email, password) {
   try {
-    yield put(Actions.signinLoading());
-    firebase.auth.signInWithEmailAndPassword(email, password);
-
-    if (firebase.auth.currentUser) {
-      yield put(Actions.signinSuccess());
-      history.push('/');
-    } else {
-      yield put(Actions.signinError('error'));
-    }
-  } catch (err) {
-    yield put(Actions.signinError('error'));
-  }
-}
-
-function* doSignout(firebase, history) {
-  try {
-    yield put(Actions.signoutLoading());
-    firebase.auth.signOut();
-
-    yield put(Actions.signoutSuccess());
-    history.push('/login');
-  } catch (err) {
-    yield put(Actions.signoutError('error'));
-  }
-}
-
-function* doSignup(firebase, history, email, password) {
-  try {
+    let error;
+    // set loading UI
     yield put(Actions.signupLoading());
-    firebase.auth.createUserWithEmailAndPassword(email, password);
+    yield firebase.auth.createUserWithEmailAndPassword(email, password).catch(e => {
+      error = e.message;
+    });
+    if (error) {
+      // shows error and stop loading UI
+      yield put(Actions.signupError(error));
+    }
+    // if no error, then firebase user change will stop loading UI
+  } catch (err) {
+    yield put(Actions.signupError(err.message));
+  }
+}
 
-    if (firebase.auth.currentUser) {
-      yield put(Actions.signupSuccess());
-      history.push('/fruta');
-    } else {
-      yield put(Actions.signupError('error'));
+function* doSignin(firebase, email, password) {
+  try {
+    let error;
+    yield put(Actions.signinLoading());
+    yield firebase.auth.signInWithEmailAndPassword(email, password).catch(e => {
+      error = e.message;
+    });
+
+    if (error) {
+      yield put(Actions.signinError(error));
     }
   } catch (err) {
-    yield put(Actions.signupError('error'));
+    yield put(Actions.signinError(err.message));
+  }
+}
+
+function* doSignout(firebase) {
+  try {
+    let error;
+    yield put(Actions.signoutLoading());
+    yield firebase.auth.signOut().catch(e => {
+      error = e.message;
+    });
+
+    if (error) {
+      yield put(Actions.signoutError(error));
+    }
+  } catch (err) {
+    yield put(Actions.signoutError(err.mess));
   }
 }
 
 /* --------------------- Watchers ------------------ */
 
+const watchSignup = function*() {
+  while (true) {
+    const { firebase, email, password } = yield take(AuthTypes.SIGNUP);
+    yield fork(doSignup, firebase, email, password);
+  }
+};
+
 const watchSignin = function*() {
   while (true) {
-    const { firebase, history, email, password } = yield take(AuthTypes.SIGNIN);
-    yield fork(doSignin, firebase, history, email, password);
+    const { firebase, email, password } = yield take(AuthTypes.SIGNIN);
+    yield fork(doSignin, firebase, email, password);
   }
 };
 
@@ -64,11 +77,4 @@ const watchSignout = function*() {
   }
 };
 
-const watchSignup = function*() {
-  while (true) {
-    const { firebase, history, email, password } = yield take(AuthTypes.SIGNUP);
-    yield fork(doSignup, firebase, history, email, password);
-  }
-};
-
-export default { watchSignin, watchSignout, watchSignup };
+export default { watchSignup, watchSignin, watchSignout };

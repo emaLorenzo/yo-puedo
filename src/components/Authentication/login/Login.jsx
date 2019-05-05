@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, TextField } from '@material-ui/core/';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withFirebase } from '../../Firebase';
 import Actions from '../redux';
@@ -32,7 +32,7 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-const Login = ({ firebase, history, signin }) => {
+const Login = ({ firebase, signin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -55,7 +55,7 @@ const Login = ({ firebase, history, signin }) => {
         <Btn
           variant="contained"
           color="secondary"
-          onClick={() => signin(firebase, history, email, password)}
+          onClick={() => signin(firebase, email, password)}
         >
           Login
         </Btn>
@@ -71,4 +71,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps
-)(withRouter(withFirebase(Login)));
+)(withFirebase(Login));

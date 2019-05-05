@@ -17,7 +17,7 @@ const LinkTo = styled(Link)`
   color: white;
 `;
 
-const Header = () => {
+function Header() {
   return (
     <Container>
       <AppBar position="static">
