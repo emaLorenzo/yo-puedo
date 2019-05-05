@@ -35,7 +35,7 @@ const App = ({ auth, history, setUser, user }) => {
     return () => {
       listener();
     };
-  }, []);
+  }, [auth, history, setUser]);
   return (
     <Wrapper>
       <Header />
@@ -52,6 +52,7 @@ const App = ({ auth, history, setUser, user }) => {
 App.propTypes = {
   auth: PropTypes.object.isRequired,
   setUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   user: PropTypes.object,
 };
 
