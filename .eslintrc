@@ -21,7 +21,8 @@
         "singleQuote": true,
         "printWidth": 100
       }
-    ]
+    ],
+    "no-alert": "off"
   },
   "plugins": [
     "prettier"
