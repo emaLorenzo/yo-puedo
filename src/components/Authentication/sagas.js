@@ -6,6 +6,7 @@ import Actions, { AuthTypes } from './redux';
 
 function* doSignup(auth, email, password) {
   try {
+    console.log(email);
     let error;
     // set loading UI
     yield put(Actions.signupLoading());

@@ -4,6 +4,7 @@ import { Button, TextField } from '@material-ui/core/';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withFirebase } from '../../Firebase';
 import Actions from '../redux';
 
@@ -33,30 +34,34 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-const Login = ({ auth, signin }) => {
+const Login = ({ auth, signin, signinLoading }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  return (
+  return signinLoading ? (
+    <CircularProgress color="secondary" />
+  ) : (
     <Wrapper>
-      <h1>Login</h1>
-      <TextField label="Email" value={email} onChange={e => setEmail(e.target.value)} />
-      <TextField
-        label="Password"
-        type="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
-      <Container>
-        <LinkTo to="/">
-          <Btn variant="contained" color="primary">
-            Back
+      <React.Fragment>
+        <h1>Login</h1>
+        <TextField label="Email" value={email} onChange={e => setEmail(e.target.value)} />
+        <TextField
+          label="Password"
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
+        <Container>
+          <LinkTo to="/">
+            <Btn variant="contained" color="primary">
+              Back
+            </Btn>
+          </LinkTo>
+          <Btn variant="contained" color="secondary" onClick={() => signin(auth, email, password)}>
+            Login
           </Btn>
-        </LinkTo>
-        <Btn variant="contained" color="secondary" onClick={() => signin(auth, email, password)}>
-          Login
-        </Btn>
-      </Container>
+        </Container>
+      </React.Fragment>
     </Wrapper>
   );
 };
@@ -64,13 +69,19 @@ const Login = ({ auth, signin }) => {
 Login.propTypes = {
   auth: PropTypes.object.isRequired,
   signin: PropTypes.func.isRequired,
+  signinLoading: PropTypes.bool,
 };
+
+// the same of user.auth.state
+const mapStateToProps = ({ auth: { signinLoading } }) => ({
+  signinLoading,
+});
 
 const mapDispatchToProps = {
   signin: Actions.signin,
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withFirebase(Login));

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, TextField } from '@material-ui/core/';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withFirebase } from '../../Firebase';
 import Actions from '../redux';
 
@@ -33,12 +34,14 @@ const LinkTo = styled(Link)`
   width: 120px;
 `;
 
-const Register = ({ auth, history, signup }) => {
+const Register = ({ auth, signup, signupLoading }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  return (
+  return signupLoading ? (
+    <CircularProgress color="secondary" />
+  ) : (
     <Wrapper>
       <h1>Register Account</h1>
       <TextField label="Name" value={name} onChange={e => setName(e.target.value)} />
@@ -56,9 +59,10 @@ const Register = ({ auth, history, signup }) => {
           </Btn>
         </LinkTo>
         <Btn
+          type="submit"
           variant="contained"
           color="secondary"
-          onClick={() => signup(auth, history, email, password)}
+          onClick={() => signup(auth, email, password)}
         >
           Register
         </Btn>
@@ -71,13 +75,18 @@ Register.propTypes = {
   auth: PropTypes.object.isRequired,
   signup: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  signupLoading: PropTypes.bool,
 };
 
+// the same of user.auth.state
+const mapStateToProps = ({ auth: { signupLoading } }) => ({
+  signupLoading,
+});
 const mapDispatchToProps = {
   signup: Actions.signup,
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
-)(withRouter(withFirebase(Register)));
+)(withFirebase(Register));
