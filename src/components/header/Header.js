@@ -14,40 +14,55 @@ const Container = styled.div`
 const Title = styled(Typography)`
   display: flex;
   flex-grow: 1;
-  font-family: 'Product Sans';
 `;
 const LinkTo = styled(Link)`
   text-decoration: none;
   color: white;
+  font-size: 40px;
+  letter-spacing: 4px;
+  font-family: 'Bangers', cursive;
 `;
+const Btn = styled(Button)`
+  border-radius: 400px !important;
+  margin: 0 0 0 10px !important;
+  font-size: 15px !important;
+  letter-spacing: 2px !important;
+  font-family: 'Montserrat', sans-serif !important;
 
-const Header = ({ auth, user, signout }) => (
-  <Container>
-    <AppBar position="static">
-      <Toolbar>
-        <Title variant="h6" color="inherit">
-          <LinkTo to="/">Yo Puedo</LinkTo>
-        </Title>
-        {user ? (
-          <LinkTo to="/login">
-            <Button color="inherit" onClick={() => signout(auth)}>
-              Salir
-            </Button>
-          </LinkTo>
-        ) : (
-          <React.Fragment>
+  &:hover {
+    background: white !important;
+    color: black !important;
+  }
+`;
+const Header = ({ auth, user, signout }) => {
+  return (
+    <Container>
+      <AppBar position="static" style={{ background: 'black' }}>
+        <Toolbar>
+          <Title variant="h6" color="inherit">
+            <LinkTo to="/">RAPPERS</LinkTo>
+          </Title>
+          {user ? (
             <LinkTo to="/login">
-              <Button color="inherit">Ingresa</Button>
+              <Btn color="inherit" variant="outlined" onClick={() => signout(auth)}>
+                Salir
+              </Btn>
             </LinkTo>
-            <LinkTo to="/register">
-              <Button color="inherit">Registrate</Button>
-            </LinkTo>
-          </React.Fragment>
-        )}
-      </Toolbar>
-    </AppBar>
-  </Container>
-);
+          ) : (
+            <React.Fragment>
+              <LinkTo to="/login">
+                <Btn color="inherit">Ingresa</Btn>
+              </LinkTo>
+              <LinkTo to="/register">
+                <Btn color="inherit">Registrate</Btn>
+              </LinkTo>
+            </React.Fragment>
+          )}
+        </Toolbar>
+      </AppBar>
+    </Container>
+  );
+};
 
 Header.propTypes = {
   auth: PropTypes.object.isRequired,

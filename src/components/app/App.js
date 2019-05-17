@@ -24,6 +24,11 @@ const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
+  background: url('https://i.imgur.com/vfHNuur.png');
+  background-position: center;
+  background-size: cover;
 `;
 
 const App = ({ auth, history, setUser, user }) => {
