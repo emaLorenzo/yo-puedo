@@ -20,7 +20,7 @@ const LinkTo = styled(Link)`
   color: white;
   font-size: 40px;
   letter-spacing: 4px;
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Bangers', cursive;
 `;
 const Btn = styled(Button)`
   border-radius: 400px !important;
@@ -40,7 +40,7 @@ const Header = ({ auth, user, signout }) => {
       <AppBar position="static" style={{ background: 'black' }}>
         <Toolbar>
           <Title variant="h6" color="inherit">
-            <LinkTo to="/">Rappers</LinkTo>
+            <LinkTo to="/">RAPPERS</LinkTo>
           </Title>
           {user ? (
             <LinkTo to="/login">
